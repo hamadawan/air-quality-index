@@ -5,6 +5,7 @@ import AQICategoryTable from './components/AQICategoryTable';
 import BarChart from './components/BarChart';
 import Header from './components/Header'
 import Footer from './components/Footer'
+import LineChart from './components/LineChart'
 import Grid from '@material-ui/core/Grid';
 
 class AQIApp extends React.Component {
@@ -12,7 +13,8 @@ class AQIApp extends React.Component {
       super(props);
       this.state = {
           ws: null,
-          data: {}
+          data: {}, // latest update records
+          allData: {}, // keep all old and latest records
       };
   }
 
@@ -53,11 +55,17 @@ class AQIApp extends React.Component {
       ws.onmessage = (event) => {
         let response = JSON.parse(event.data)
         let newRecord = {}
+        let allRecord = this.state.allData
         let now = Date.now()
         response.map( record => {
             newRecord[record.city] = {...record, updatedTime: now}
+            if(allRecord[record.city] && allRecord[record.city].length){
+                allRecord[record.city].push(Number(record.aqi.toFixed(2)))
+            } else {
+                allRecord[record.city] = [Number(record.aqi.toFixed(2))]
+            }
         })
-        this.setState({data: {...this.state.data, ...newRecord}})
+        this.setState({data: {...this.state.data, ...newRecord}, allData: allRecord})
       }
   };
 
@@ -75,13 +83,16 @@ class AQIApp extends React.Component {
                 <BarChart data={this.state.data} />
             </Paper>
             <Grid container>
-                <Grid item xs={3}></Grid>
-                <Grid item xs={6}>
+                <Grid item xs={7}>
+                    <Paper style={{margin:'20px'}}>
+                        <LineChart allData={this.state.allData} />
+                    </Paper>
+                </Grid>
+                <Grid item xs={5}>
                     <Paper style={{margin:'20px'}}>
                         <AQICategoryTable data={this.state.data} />
                     </Paper>
                 </Grid>
-                <Grid item xs={3}></Grid>
                 <Grid item xs={12}>
                     <Paper style={{margin:'20px'}}>
                         <AQITable data={this.state.data} />

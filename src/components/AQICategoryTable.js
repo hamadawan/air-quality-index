@@ -66,7 +66,7 @@ export default function AQICategoryTable({data}) {
         </TableHead>
         <TableBody>
           {rows.map((row) => (
-            <StyledTableRow className={"AQICategory"} key={row.city}>
+            <StyledTableRow className={"AQICategory"} key={row.number}>
               <StyledTableCell className={row.category} style={{maxWidth:'30px'}} component="th" scope="row">
                 {row.number}
               </StyledTableCell>
