@@ -1,0 +1,24 @@
+.Good{ 
+  color: #53a849 !important;
+  font-weight: bold !important;
+}
+.Satisfactory{
+  color: #a2c751 !important;
+  font-weight: bold !important;
+}
+.Moderate{
+  color:#fef033 !important;
+  font-weight: bold !important;
+}
+.Poor{
+  color: #f39c32 !important;
+  font-weight: bold !important;
+}
+.Very{
+  color: #e93f32 !important;
+  font-weight: bold !important;
+}
+.Severe{
+  color: #b02e25 !important;
+  font-weight: bold !important;
+}
